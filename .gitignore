@@ -1,0 +1,70 @@
+*.json
+!bigquery_schemas/*.json
+!schemas/*.json
+service_account*.json
+*credentials*.json
+*keyfile*.json
+application_default_credentials.json
+gcloud/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+*.log
+
+#  Virtual Environments
+venv/
+.venv/
+env/
+.env/
+ENV/
+
+#  Environment Variables
+.env
+.env.local
+.env.*.local
+
+#  Jupyter Notebooks
+.ipynb_checkpoints/
+
+#  Dataflow / Beam Temp Files
+staging/
+temp/
+tmp/
+*.beam
+dataflow-staging/
+
+.vscode/
+*.code-workspace
+
+.idea/
+*.iml
+*.iws
+
+*.swp
+*.swo
+*~
+\#*\#
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Misc
+*.zip
+*.tar.gz
+*.gz
+node_modules/
