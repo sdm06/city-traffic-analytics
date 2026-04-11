@@ -1,0 +1,74 @@
+[
+  {
+    "name": "event_id",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Unique identifier for the traffic detection event (UUID v4)"
+  },
+  {
+    "name": "timestamp",
+    "type": "TIMESTAMP",
+    "mode": "REQUIRED",
+    "description": "UTC timestamp when the vehicle passed the sensor"
+  },
+  {
+    "name": "intersection_id",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Intersection identifier, e.g. INT-003-CentralSquare"
+  },
+  {
+    "name": "vehicle_type",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Type of vehicle: car | truck | bus | motorcycle | bicycle"
+  },
+  {
+    "name": "speed_kmh",
+    "type": "FLOAT64",
+    "mode": "REQUIRED",
+    "description": "Measured vehicle speed in km/h"
+  },
+  {
+    "name": "direction",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Travel direction: north | south | east | west"
+  },
+  {
+    "name": "lane",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "Lane number, 1 = leftmost lane"
+  },
+  {
+    "name": "license_plate",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Vehicle license plate (simulated in dev, anonymised in prod)"
+  },
+  {
+    "name": "is_emergency",
+    "type": "BOOLEAN",
+    "mode": "NULLABLE",
+    "description": "True if the vehicle is an emergency vehicle"
+  },
+  {
+    "name": "speed_category",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Derived speed band: stationary | slow | normal | fast | very_fast"
+  },
+  {
+    "name": "ingested_at",
+    "type": "TIMESTAMP",
+    "mode": "NULLABLE",
+    "description": "Timestamp when Dataflow wrote this row to BigQuery"
+  },
+  {
+    "name": "event_date",
+    "type": "DATE",
+    "mode": "NULLABLE",
+    "description": "Date portion of timestamp — used as the partition column"
+  }
+]

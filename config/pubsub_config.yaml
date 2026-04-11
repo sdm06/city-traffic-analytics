@@ -1,0 +1,43 @@
+# ============================================================
+# config/pubsub_config.yaml
+# Pub/Sub topics and subscriptions for Smart City Traffic Analytics.
+#
+# Used by: infrastructure/setup_gcp.sh (automated setup)
+# Owner:   Cloud Architect
+# ============================================================
+
+project_id: YOUR_GCP_PROJECT_ID # Replace with real project ID
+
+topics:
+  - name: traffic-events
+    description: "Raw traffic sensor events from the simulator / real sensors"
+    message_retention_duration: 7d # Keep undelivered messages for 7 days
+    labels:
+      env: dev
+      team: smart-city
+
+  - name: traffic-events-deadletter
+    description: "Malformed events that the pipeline could not process"
+    message_retention_duration: 14d
+    labels:
+      env: dev
+      team: smart-city
+
+subscriptions:
+  - name: traffic-events-sub
+    topic: traffic-events
+    description: "Main subscription read by the Dataflow pipeline"
+    ack_deadline_seconds: 60 # Time Dataflow has to ack each message
+    message_retention_duration: 7d
+    expiration_policy: never # Don't auto-delete the subscription
+    labels:
+      env: dev
+      team: smart-city
+
+  - name: traffic-events-deadletter-sub
+    topic: traffic-events-deadletter
+    description: "Subscription for manual inspection of failed messages"
+    ack_deadline_seconds: 600
+    labels:
+      env: dev
+      team: smart-city
