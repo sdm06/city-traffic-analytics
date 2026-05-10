@@ -114,7 +114,7 @@ def run(argv=None):
         worker_opts = options.view_as(WorkerOptions)
         worker_opts.num_workers = 1
         worker_opts.max_num_workers = 5
-        worker_opts.machine_type = "n1-standard-2"
+        worker_opts.machine_type = "e2-standard-2"
 
         setup_opts = options.view_as(SetupOptions)
         setup_opts.requirements_file = "requirements.txt"
