@@ -170,26 +170,22 @@ class TestEnrichTrafficEvent(unittest.TestCase):
         event = make_event(speed_kmh=75.0)
         raw = [encode(event)]
 
-        results = []
-
-        def collect(element):
-            results.append(element)
+        def check(actual):
+            assert len(actual) == 1, f"Expected 1 element, got {len(actual)}"
+            enriched = actual[0]
+            assert "speed_category" in enriched
+            assert "ingested_at" in enriched
+            assert "event_date" in enriched
+            assert enriched["speed_category"] == "normal"
 
         with TestPipeline() as p:
-            (
+            result = (
                 p
                 | beam.Create(raw)
                 | beam.ParDo(ParseTrafficEvent())
                 | beam.ParDo(EnrichTrafficEvent())
-                | beam.Map(collect)
             )
-
-        self.assertEqual(len(results), 1)
-        enriched = results[0]
-        self.assertIn("speed_category", enriched)
-        self.assertIn("ingested_at", enriched)
-        self.assertIn("event_date", enriched)
-        self.assertEqual(enriched["speed_category"], "normal")
+            assert_that(result, check)
 
 
 if __name__ == "__main__":

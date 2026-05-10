@@ -70,3 +70,5 @@ desktop.ini
 *.tar.gz
 *.gz
 node_modules/
+
+CLAUDE.md
