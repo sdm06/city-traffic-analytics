@@ -18,7 +18,7 @@
 set -euo pipefail # Exit on error, treat unset vars as errors
 
 # ── Configuration — Edit these before running ─────────────────────────────────
-PROJECT_ID="YOUR_GCP_PROJECT_ID" # Your GCP project ID
+PROJECT_ID="city-traffic-analytics" # Your GCP project ID
 REGION="europe-west1" # GCP region
 ZONE="europe-west1-b" # GCP zone
 BQ_DATASET="traffic_analytics" # BigQuery dataset name
@@ -167,6 +167,7 @@ fi
 # Grant required roles
 declare -a ROLES=(
   "roles/dataflow.worker"
+  "roles/dataflow.developer"
   "roles/bigquery.dataEditor"
   "roles/pubsub.subscriber"
   "roles/storage.objectAdmin"
@@ -180,6 +181,13 @@ for ROLE in "${ROLES[@]}"; do
     --quiet
   log "  Granted: ${ROLE}"
 done
+
+# Allow the service account to act as itself (required for Dataflow job submission)
+gcloud iam service-accounts add-iam-policy-binding "${SA_EMAIL}" \
+  --member="serviceAccount:${SA_EMAIL}" \
+  --role="roles/iam.serviceAccountUser" \
+  --quiet
+log "Granted serviceAccountUser on self (actAs)"
 
 # ── Step 6: Summary ────────────────────────────────────────────────────────────
 echo ""
