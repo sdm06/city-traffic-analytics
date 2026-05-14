@@ -15,7 +15,7 @@
     "name": "intersection_id",
     "type": "STRING",
     "mode": "REQUIRED",
-    "description": "Intersection identifier, e.g. INT-003-CentralSquare"
+    "description": "Intersection identifier, e.g. INT-003"
   },
   {
     "name": "vehicle_type",
@@ -45,7 +45,7 @@
     "name": "license_plate",
     "type": "STRING",
     "mode": "NULLABLE",
-    "description": "Vehicle license plate (simulated in dev, anonymised in prod)"
+    "description": "Vehicle license plate (simulated in dev)"
   },
   {
     "name": "is_emergency",
@@ -70,5 +70,23 @@
     "type": "DATE",
     "mode": "NULLABLE",
     "description": "Date portion of timestamp — used as the partition column"
+  },
+  {
+    "name": "time_of_day",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Time of day period: night | early_morning | rush_morning | midday | rush_evening | evening"
+  },
+  {
+    "name": "weather",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Weather condition: clear | rain | fog | snow"
+  },
+  {
+    "name": "incident_nearby",
+    "type": "BOOLEAN",
+    "mode": "NULLABLE",
+    "description": "Whether a traffic incident was active near this intersection"
   }
 ]
