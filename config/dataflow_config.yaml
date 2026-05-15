@@ -1,0 +1,47 @@
+# ============================================================
+# config/dataflow_config.yaml
+# Dataflow / Apache Beam pipeline runner configuration.
+#
+# Used by: pipeline/pipeline.py (reads these as defaults)
+# Owner:   Data Engineer + Cloud Architect
+# ============================================================
+
+# ── Local Development (DirectRunner) ─────────────────────────────────────────
+local:
+  runner: DirectRunner
+  streaming: true
+  # No GCP resources needed — runs entirely on your machine.
+  # Use this for development and unit testing.
+
+# ── Google Cloud Dataflow ─────────────────────────────────────────────────────
+cloud:
+  runner: DataflowRunner
+  project: YOUR_GCP_PROJECT_ID # Replace with real project ID
+  region: europe-west1
+  streaming: true
+
+  # Storage
+  temp_location: gs://YOUR_BUCKET/temp
+  staging_location: gs://YOUR_BUCKET/staging
+
+  # Worker configuration (start small — scale up as needed)
+  num_workers: 1
+  max_num_workers: 5
+  machine_type: n1-standard-2 # 2 vCPU, 7.5 GB — fine for dev/testing
+  disk_size_gb: 50
+
+  # Job settings
+  job_name: smart-city-traffic-pipeline
+  service_account_email: dataflow-runner@YOUR_GCP_PROJECT_ID.iam.gserviceaccount.com
+
+  # Labels (useful for cost tracking in GCP billing)
+  labels:
+    env: dev
+    team: smart-city
+    component: dataflow
+
+  # Autoscaling
+  autoscaling_algorithm: THROUGHPUT_BASED # Scale workers based on backlog
+
+  # Logging
+  dataflow_endpoint: https://dataflow.googleapis.com

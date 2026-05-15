@@ -1,0 +1,16 @@
+# Core pipeline
+apache-beam[gcp]>=2.53.0
+google-cloud-bigquery>=3.0.0
+google-cloud-storage>=2.0.0
+google-cloud-pubsub>=2.0.0
+google-apitools>=0.5.31
+google-auth-httplib2>=0.2.0
+regex>=2024.0.0
+
+# Environment config
+python-dotenv>=1.0.0
+
+# Dev & CI
+pytest>=7.4.0
+black>=24.0.0
+flake8>=7.0.0

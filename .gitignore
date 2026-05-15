@@ -1,6 +1,8 @@
 *.json
 !bigquery_schemas/*.json
 !schemas/*.json
+!/package.json
+!/package-lock.json
 service_account*.json
 *credentials*.json
 *keyfile*.json
@@ -68,3 +70,5 @@ desktop.ini
 *.tar.gz
 *.gz
 node_modules/
+
+CLAUDE.md

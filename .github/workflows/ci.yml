@@ -1,0 +1,85 @@
+# ============================================================
+# ci.yml — GitHub Actions: Lint + Test on every PR
+# ============================================================
+# Runs automatically when you:
+#   • Open a Pull Request targeting develop or main
+#   • Push to develop or main
+#
+# What it checks:
+#   1. Code formatting (black)
+#   2. Code style (flake8)
+#   3. Unit tests (pytest)
+# ============================================================
+
+name: CI — Lint & Test
+
+on:
+  push:
+    branches: [develop, main]
+  pull_request:
+    branches: [develop, main]
+
+jobs:
+  lint-and-test:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.10"]
+
+    steps:
+      # ── Checkout code ────────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── Set up Python ────────────────────────────────────────────────────────
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip # Cache pip dependencies for speed
+
+      # ── Install dependencies ─────────────────────────────────────────────────
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # ── Check formatting with black ──────────────────────────────────────────
+      - name: Check code formatting (black)
+        run: |
+          black --check --diff .
+        # If this fails: run `black .` locally and commit the result
+
+      # ── Lint with flake8 ─────────────────────────────────────────────────────
+      - name: Lint with flake8
+        run: |
+          flake8 . \
+            --max-line-length=100 \
+            --extend-ignore=E203,W503 \
+            --exclude=venv,.venv,__pycache__,build,dist
+
+      # ── Run unit tests ───────────────────────────────────────────────────────
+      - name: Run unit tests (pytest)
+        run: |
+          pytest pipeline/tests/ \
+            --verbose \
+            --tb=short \
+            -p no:warnings
+
+      # ── Check for accidentally committed credentials ──────────────────────────
+      - name: Check for credentials leak
+        run: |
+          # Fail if any tracked file contains common credential patterns
+          if git grep -rE \
+            "(service_account|private_key_id|client_secret|GOOGLE_APPLICATION_CREDENTIALS)" \
+            -- '*.py' '*.yaml' '*.yml' '*.md' '*.sh' \
+            ':!.env.example' \
+            ':!infrastructure/setup_gcp.sh' \
+            ':!config/dataflow_config.yaml'; then
+            echo "❌ Possible credential found in tracked files!"
+            exit 1
+          else
+            echo "✅ No credentials found in tracked files"
+          fi
