@@ -41,8 +41,8 @@ All three layers live in the `traffic_analytics` BigQuery dataset.
 | Layer | Table(s) | Populated by | Status |
 |---|---|---|---|
 | Bronze | `raw_events` | Dataflow writer | Schema done; pipeline pending |
-| Silver | `cleaned_events`, `intersection_metrics` | `sql/silver.sql` | Pending (Phase 3) |
-| Gold | `hourly_traffic_summary`, `congestion_index`, `vehicle_type_breakdown` | `sql/gold.sql` | Pending (Phase 3) |
+| Silver | `cleaned_events`, `intersection_metrics` | `sql/silver.sql` | Implemented (Phase 3) |
+| Gold | `hourly_traffic_summary`, `congestion_index`, `vehicle_type_breakdown` | `sql/gold.sql` | Implemented (Phase 3) |
 
 `raw_events` is partitioned by `event_date` (DATE) for query cost control.
 
